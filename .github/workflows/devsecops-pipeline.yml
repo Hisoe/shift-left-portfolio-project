@@ -1,0 +1,56 @@
+name: Shift-Left DevSecOps Pipeline
+
+# 1. The Trigger: When should this pipeline run?
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # 2. The SAST Scanner (Semgrep)
+  sast-semgrep:
+    name: Semgrep SAST Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          generateSarif: "1"
+        # We intentionally allow this to pass so the pipeline finishes and we can view results
+        continue-on-error: true 
+
+      - name: Upload Semgrep SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+
+  # 3. The Container Scanner (Trivy)
+  container-scan-trivy:
+    name: Trivy Container Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build the Docker image
+        run: docker build -t vulnerable-app:latest .
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'vulnerable-app:latest'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+        continue-on-error: true
+
+      - name: Upload Trivy SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-results.sarif
+          category: trivy
