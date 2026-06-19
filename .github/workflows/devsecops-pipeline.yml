@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read          # Allows the pipeline to read your code
+  security-events: write  # Crucial! Allows uploading results to the Security tab
+
 jobs:
   # 2. The SAST Scanner (Semgrep)
   sast-semgrep:
