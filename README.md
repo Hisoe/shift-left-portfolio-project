@@ -27,13 +27,16 @@ This repository contains an intentionally vulnerable Node.js web application and
 *(Note: This section will be populated after configuring the pipeline and generating scan results.)*
 
 ### 1. The "Fail the Build" Vulnerability (Critical)
-* **Finding:** [To be added]
-* **Triage Rationale:** [To be added]
+* **Finding A:** Remote Code Execution (RCE) Vector
+* **Triage Rationale:** This represents a critical code-level risk. The SAST scanner detected untrusted user input being dynamically concatenated and passed directly into an `eval()` function, creating a direct vector for Remote Code Execution. I would configure the pipeline to strictly fail the build (`exit 1`) upon detecting this, forcing developers to utilize safe parsing methods instead of dynamic execution.
+
+* **Finding B:** Hardcoded RSA Private Key detected by Semgrep in app.js (generic.secrets.security.detected-private-key.detected-private-key)
+* **Triage Rationale:** This represents a critical, immediate risk. Exposing a hardcoded cryptographic private key could allow an attacker to decrypt sensitive communications, forge tokens, or impersonate secure services. In a production environment, I would configure the pipeline to strictly fail the build (`exit 1`) upon detecting this to prevent deployment and immediately initiate an incident response to rotate the compromised key.    
 
 ### 2. The "Accept the Risk" Vulnerability
-* **Finding:** [To be added]
-* **Triage Rationale:** [To be added]
+* **Finding:** `openssl: SM2 Decryption Buffer Overflow` detected by Trivy in the container OS
+* **Triage Rationale:** While flagged as Critical severity by the SCA tool, this vulnerability exists in an OS-level package (`openssl`) within the legacy `node:14.0.0-alpine` base image. Because our specific Node.js Express application does not utilize SM2 cryptographic decryption, the immediate exploitability in this context is virtually zero. I would temporarily accept this risk to unblock the deployment pipeline, while simultaneously creating a high-priority Jira ticket to upgrade the Dockerfile to a secure, modern base image (e.g., `node:18-alpine`) during the next sprint.
 
 ### 3. The False Positive
-* **Finding:** [To be added]
-* **Triage Rationale:** [To be added]
+* **Finding:** Hardcoded RSA Private Key detected in test-config.txt
+* **Triage Rationale:** The SAST scanner correctly identified a cryptographic key structure. However, manual inspection reveals this file is strictly isolated to the testing suite. The credential is a dummy value used solely to test the encryption logic locally and grants no actual system access. I would mark this as a False Positive and configure a .semgrepignore file to explicitly exclude *test* files to reduce developer alert fatigue.
