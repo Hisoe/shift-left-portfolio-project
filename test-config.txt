@@ -1,1 +1,4 @@
-DATABASE_PASSWORD="TestEnvironmentPassword123"
+# Dummy key used strictly for unit testing
+TEST_PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA0xX3aTESTKEY...
+-----END RSA PRIVATE KEY-----"
