@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 
-// Intentional Vulnerability 1: Hardcoded "Secret"
-const SLACK_BOT_TOKEN = "xoxb-123456789012-1234567890123-a1B2c3D4e5F6g7H8i9J0kLmn";
+// Intentional Vulnerability 1: Hardcoded Private Key
+const PRIVATE_KEY = `-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEA0xX3a...
+-----END RSA PRIVATE KEY-----`;
 
 app.get('/', (req, res) => {
     // Intentional Vulnerability 2: Dangerous input execution
