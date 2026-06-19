@@ -4,6 +4,7 @@
 The goal of this project is to demonstrate a practical understanding of the "shift-left" security approach. By integrating security tooling directly into the CI/CD pipeline, vulnerabilities in both the application code and the container environment are caught before reaching production.
 
 This repository contains an intentionally vulnerable Node.js web application and Dockerfile. A GitHub Actions workflow runs on every push, executing Static Application Security Testing (SAST) and Software Composition Analysis (SCA) to identify security flaws.
+<img width="2959" height="294" alt="Picture1" src="https://github.com/user-attachments/assets/990564e3-c502-4b69-9bb5-cf25b0c253f4" />
 
 ## 🛠️ Technologies & Tools Used
 * **Version Control:** Git & GitHub
