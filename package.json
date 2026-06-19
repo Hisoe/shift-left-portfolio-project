@@ -1,0 +1,12 @@
+{
+    "name": "vulnerable-app",
+    "version": "1.0.0",
+    "description": "An intentionally vulnerable Node.js app for testing DevSecOps pipelines.",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1"
+    }
+}
