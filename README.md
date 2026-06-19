@@ -1,5 +1,8 @@
 # Shift-Left DevSecOps Pipeline: Scan & Triage
 
+## ⚠️ Disclaimer: 
+This repository contains an intentionally vulnerable Node.js application. It was engineered specifically to demonstrate automated DevSecOps pipeline capabilities and security scanner configurations. Do not deploy this code.
+
 ## 📌 Project Overview
 The goal of this project is to demonstrate a practical understanding of the "shift-left" security approach. By integrating security tooling directly into the CI/CD pipeline, vulnerabilities in both the application code and the container environment are caught before reaching production.
 
