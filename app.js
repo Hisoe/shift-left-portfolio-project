@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // Intentional Vulnerability 1: Hardcoded "Secret"
-const GITHUB_TOKEN = "ghp_1234567890abcdefGHIJKLmnopqrstuvwxyz";
+const SLACK_BOT_TOKEN = "xoxb-123456789012-1234567890123-a1B2c3D4e5F6g7H8i9J0kLmn";
 
 app.get('/', (req, res) => {
     // Intentional Vulnerability 2: Dangerous input execution
